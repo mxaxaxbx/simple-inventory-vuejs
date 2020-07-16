@@ -16,7 +16,7 @@ export default {
     props: ['email'],
     methods: {
         logout(){
-            auth.logOut();
+            auth.logOut(true);
         }
     }
 }
