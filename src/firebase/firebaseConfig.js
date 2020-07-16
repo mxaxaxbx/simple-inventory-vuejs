@@ -4,7 +4,7 @@ var config = {
     apiKey: "",
     authDomain: "",
     databaseURL: "",
-    projectId: "crud-62ae6",
+    projectId: "",
     storageBucket: "",
     messagingSenderId: "",
     appId: "",
