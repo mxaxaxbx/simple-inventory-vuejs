@@ -1,4 +1,4 @@
-# vue-firebase-crud-app
+# Sistema simple de inventarios
 
 ## Project setup
 ```
@@ -20,5 +20,7 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Notas adicionales
+Recuerda usar tus credenciales de firebase y configurarlas en el archivo src/firebase/firebaseConfig.js
+
+Active el lint en package.json si necesita enviarlo a producción.
