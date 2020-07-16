@@ -33,18 +33,18 @@ class AuthService extends EventEmitter {
         });
     }
 
-    logOut(){
+    logOut(redirected = true){
         localStorage.removeItem(localStorageKey);
         localStorage.removeItem(tokenExpiryKey);
         localStorage.removeItem('userInfo');
-
+        
         this.idToken = null;
         this.tokenExpiry = null;
         this.profile = null;
 
         this.emit(loginEvent, {loggedIn: false});
 
-        store.dispatch('logout');
+        store.dispatch('logout', redirected);
         
     }
 
