@@ -43,7 +43,7 @@ export default {
             const fr = new FileReader;
             fr.readAsDataURL(event.target.files[0])
             fr.onload = function(data){
-                let img = document.getElementById('previewImage').src = data.target.result;
+                document.getElementById('previewImage').src = data.target.result;
             }   
 
             this.imageData = event.target.files[0];
