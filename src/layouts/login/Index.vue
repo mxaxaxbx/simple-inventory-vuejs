@@ -23,7 +23,7 @@
 export default {
     data(){
         return {
-            user : {email:'mxaxaxbx@gmail.com', password: '106910691069', role:'editor'}
+            user : {email:'', password: '', role:'editor'}
         }
     },
 
