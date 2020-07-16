@@ -43,7 +43,7 @@ export default {
             }
 
             if(!isUsernameUpdateRequired){
-                router.push(router.currentRoute.query.to || '/')
+                router.push(router.currentRoute.query.to || '/dashboard')
                 result.user.providerData[0]['role'] = 'editor';
                 commit('UPDATE_USER_INFO', result.user.providerData[0], {root: true})
             }
@@ -77,11 +77,13 @@ export default {
         })
     },
 
-    logout({commit}){
+    logout({commit}, redirected){
         firebase.auth().signOut()
         .then(() => {
-            router.push({path:'/'});
             commit('RESET_USER_INFO');
+            if (redirected){
+                router.push({path:'/'});
+            }
         })
         .catch((err) => {
             alert(err.message)
