@@ -125,8 +125,14 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     firebase.auth().onAuthStateChanged(() => {
         const firebaseCurrentUser = firebase.auth().currentUser
+
+        if(!firebaseCurrentUser){
+            let redirect = false;
+            if(to.path != '/'){redirect = true}
+            auth.logOut(redirect);
+        }
         
-        if(to.path == '/' && (auth.isAuthenticated() || firebaseCurrentUser.email)){
+        if(to.path == '/' && (auth.isAuthenticated() || firebaseCurrentUser)){
             router.push({path:'/dashboard'});
         }
 
