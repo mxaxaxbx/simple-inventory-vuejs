@@ -20,7 +20,7 @@ export default{
 
         return dispatch('get_product_by_barcode', prod.barcode)
         .then((res) => {
-            if(res){return dispatch('modify_product', prod);}
+            if(res){alert('Este producto ya se encuentra registrado. Verifique el código de barras'); return null;}
             
             return db.collection('products').add(product)
             .then((res) => {
@@ -75,7 +75,7 @@ export default{
         .where('barcode', '==', barcode)
         .get()
         .then((res) => {
-            if(res.docs[0].id == undefined){return null;}
+            if(res.docs.length == 0){return null;}
 
             return res.docs[0].id;
         })
@@ -116,12 +116,12 @@ export default{
     },
 
     upload_product_image({commit, dispatch}, data){
-        dispatch('get_product_by_barcode', data.barcode)
-        .then((doc_id) => {
-            if(!doc_id){alert('Este producto no se encuentra registrado'); return null;}
+        dispatch('get_product', data.product_id)
+        .then((doc) => {
+            if(!doc){alert('El producto no se encuentra registrado'); return null;}
 
             const storageRef = firebase.storage()
-            .ref(`${data.barcode}`)
+            .ref(`${data.product_id}`)
             .put(data.imageData);
 
             storageRef.on(`state_changed`, snapshot => {
@@ -138,14 +138,14 @@ export default{
         });
     },
 
-    get_product_image({dispatch, commit}, barcode){
-        dispatch('get_product_by_barcode', barcode)
+    get_product_image({dispatch, commit}, product_id){
+        dispatch('get_product', product_id)
         
-        .then((doc_id) => {
-            if(!doc_id){alert('Este producto no se encuentra registrado'); return null;}
+        .then((doc) => {
+            if(!doc){alert('El producto no se encuentra registrado'); return null;}
 
             firebase.storage()
-            .ref(`${barcode}`)
+            .ref(`${product_id}`)
             .getDownloadURL()
             .then((fileUrl) => {
                 commit('SET_PICTURE', fileUrl);
@@ -156,9 +156,9 @@ export default{
         })
     },
 
-    delete_product_image({commit}, barcode){
+    delete_product_image({commit}, id){
         firebase.storage()
-        .ref(`${barcode}`)
+        .ref(`${id}`)
         //.child(`${barcode}`)
         .delete()
         .then(() => {
@@ -169,15 +169,15 @@ export default{
         })
     },
 
-    delete_product({dispatch}, barcode){
-        return dispatch('get_product_by_barcode', barcode)
-        .then((doc_id) => {
-            if(!doc_id){alert('Este producto no se encuentra registrado'); return null;}
+    delete_product({dispatch}, id){
+        return dispatch('get_product', id)
+        .then((doc) => {
+            if(!doc){alert('El producto no se encuentra registrado'); return null;}
 
-            dispatch('delete_product_image', barcode);
+            dispatch('delete_product_image', id);
 
             return db.collection('products')
-            .doc(doc_id)
+            .doc(id)
             .delete()
             .then(() => {
                 return true;

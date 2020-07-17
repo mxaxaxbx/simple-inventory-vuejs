@@ -18,4 +18,8 @@ export default{
     quantity_products: (state) => {
         return state.quantity_products;
     },
+
+    product_id: (state) => {
+        return state.product_id;
+    },
 }
