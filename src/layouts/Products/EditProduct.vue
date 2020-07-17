@@ -1,16 +1,16 @@
 <template>
 <div>
     <h1>Modificar Producto</h1>
-    <delete-product :barcode="product.barcode" />
+    <delete-popup :id="product_id" :item="'Producto'" :itemAction="'product'"/>
     <product-form :product="product" :action="'update'" />
-    <product-image :barcode="product.barcode" />
+    <product-image :product_id="product_id" />
 </div>
 </template>
 
 <script>
 import ProductForm from './ProductForm';
 import ProductImage from './ProductImage';
-import DeleteProduct from './DeleteProduct';
+import DeletePopup from '@/layouts/popups/DeletePopup';
 
 export default {
     data(){
@@ -35,8 +35,12 @@ export default {
         })
     },
 
-    components: {ProductForm, ProductImage, DeleteProduct},
+    components: {ProductForm, ProductImage, DeletePopup},
 
-    
+    computed: {
+        product_id: function(){
+            return this.$route.params.id;
+        }
+    }
 }
 </script>
