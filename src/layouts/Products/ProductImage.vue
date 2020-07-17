@@ -28,11 +28,16 @@ import {mapGetters} from 'vuex';
 
 export default {
     name: 'product-image',
-    props: ['barcode'],
+    props: ['product_id'],
     data(){
         return{
             imageData: null,
         }
+    },
+
+    async beforeMount(){
+        const id = await this.product_id;
+        this.$store.dispatch('get_product_image', id);
     },
     
     methods: {
@@ -54,7 +59,7 @@ export default {
 
             const data = {
                 imageData: this.imageData,
-                barcode: this.barcode,
+                product_id: this.product_id,
             }
 
             this.$store.dispatch('upload_product_image', data);
@@ -63,7 +68,7 @@ export default {
 
         delImage(){
             if(confirm('¿Desea eliminar la imagen?')){
-                this.$store.dispatch('delete_product_image', this.barcode);
+                this.$store.dispatch('delete_product_image', this.product_id);
             }
         }
     },
@@ -73,8 +78,8 @@ export default {
     },
 
     watch: {
-        barcode: function(){
-            this.$store.dispatch('get_product_image', this.barcode);
+        product_id: function(){
+            this.$store.dispatch('get_product_image', this.product_id);
         }
     }
 }
